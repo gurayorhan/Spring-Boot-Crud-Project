@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body class="container"> 
+<div class="border">
+	<nav class="navbar navbar-expand-lg navbar-light bg-secondary" >
+	  <a class="navbar-brand" href="">Crud Project</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+	    <div class="navbar-nav">
+	      <a class="nav-item nav-link active" href="/kullanici-listele">User Lists<span class="sr-only">(current)</span></a>
+	      <a class="nav-item nav-link active" href="/kullanici-ekle">User Add<span class="sr-only">(current)</span></a>
+	    </div>
+	  </div>
+	</nav>
+	<h2 class="m-3">User Add</h2>
+	
+	<hr class="mb-4">
+	
+	<div class="m-3">
+	
+	<form class="needs-validation" novalidate="" action="#" th:action="@{/kullanici-ekle}" th:object="${user}" method="post">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+          
+          	<label for="name">First Name</label>
+	    	<input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Name">
+	    	
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="name">First Name</label>
+	    	<input class="form-control" type="text" th:field="*{surname}" id="surname" placeholder="Surname">
+          </div>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="mail">Email</label>
+	    	<input class="form-control" type="text" th:field="*{mail}" id="mail" placeholder="Email">
+        </div>
+        
+        
+        <div class="mb-3">
+            <label for="password">Password</label>
+	    	<input class="form-control" type="text" th:field="*{password}" id="password" placeholder="Password">
+        </div>
+        <div class="row">
+	        <div class="col-md-5 mb-3">
+	            <label for="country">Addresses</label>
+	            <select class="custom-select d-block w-100" onchange="addressAdd()" id="addressNumber">
+			   		<option th:each="i : ${#numbers.sequence(0, 3)}" th:value="${i}" th:text="${i}">
+		    		</option>
+				</select>
+	        </div>
+        </div>
+        
+        
+        <div id="addresses">
+        
+			<div id="address1" style="display: none" class="mb-3">
+				<label for="openAddress">Open Address</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[0].openAddress}" id="openAddress1" placeholder="Open Address">
+				<label for="statement">Statement</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[0].statement}" id="statement1" placeholder="Statement">
+				<div class="row">
+		          <div class="col-md-5 mb-3">
+		            <label for="country">Province</label>
+		            
+		            <select id="il1"  class="custom-select d-block w-100" onchange="degis(1)" th:field="*{addresses[0].provinceId}">
+		   				<option value="0" disabled selected>Province Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-4 mb-3">
+		            <label for="state">District</label>
+		            <select id="ilce1" class="custom-select d-block w-100" th:field="*{addresses[0].districtId}">
+						<option value="0" disabled selected>District Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-3 mb-3">
+		            <label for="zip">Zip</label>
+		            <input type="number" class="form-control" id="zip" th:field="*{addresses[0].zipCode}">
+		          </div>
+		        </div>
+			</div>
+			<div id="address2" style="display: none" class="mb-3">
+				<hr class="mb-4">
+				<label for="openAddress">Open Address</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[1].openAddress}" id="openAddress2" placeholder="Open Address">
+				<label for="statement">Statement</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[1].statement}" id="statement2" placeholder="Statement">
+				<div class="row">
+		          <div class="col-md-5 mb-3">
+		            <label for="country">Province</label>
+		            
+		            <select id="il2"  class="custom-select d-block w-100" onchange="degis(2)" th:field="*{addresses[1].provinceId}">
+		   				<option value="0" disabled selected>Province Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-4 mb-3">
+		            <label for="state">District</label>
+		            <select id="ilce2" class="custom-select d-block w-100" th:field="*{addresses[1].districtId}">
+						<option value="0" disabled selected>District Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-3 mb-3">
+		            <label for="zip">Zip</label>
+		            <input type="number" class="form-control" id="zip" th:field="*{addresses[1].zipCode}">
+		          </div>
+		        </div>
+			</div>
+			<div id="address3" style="display: none" class="mb-3">
+				<hr class="mb-4">
+				<label for="openAddress">Open Address</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[2].openAddress}" id="openAddress3" placeholder="Open Address">
+				<label for="statement">Statement</label>
+				<input class="form-control mb-3" type="text" th:field="*{addresses[2].statement}" id="statement3" placeholder="Statement">
+				<div class="row">
+		          <div class="col-md-5 mb-3">
+		            <label for="country">Province</label>
+		            
+		            <select id="il3"  class="custom-select d-block w-100" onchange="degis(3)" th:field="*{addresses[2].provinceId}">
+		   				<option value="0" disabled selected>Province Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-4 mb-3">
+		            <label for="state">District</label>
+		            <select id="ilce3" class="custom-select d-block w-100" th:field="*{addresses[2].districtId}">
+						<option value="0" disabled selected>District Choose</option>
+			    	</select>
+		          </div>
+		          <div class="col-md-3 mb-3">
+		            <label for="zip">Zip</label>
+		            <input type="number" class="form-control" id="zip" th:field="*{addresses[2].zipCode}">
+		          </div>
+		        </div>
+			</div>
+		</div>
+		
+        <hr class="mb-4">
+        <input class="btn btn-primary btn-lg btn-block mb-3" type="submit" value="Add User">   
+      </form>
+	</div>
+	
+	</div>
+	<script type="text/javascript">
+	
+		$(document).ready(function(){
+		    $.getJSON("iller", function(result){
+		    	for(var t = 1; t< 4;t++){
+		    		 $.each(result, function(i, il){
+		 		    	var text = "<option value="+ il["id"]+" >"+il["name"]+"";
+		 		        $("#il"+t+"").append(text);
+		 		      });
+		    	}
+		  });
+		});
+	
+		function degis(t){
+				var veri;
+				var ilsecimi = document.getElementById('il'+t+'');
+				for ( var i = 0, len = ilsecimi.options.length; i < len; i++ ) {
+		            opt = ilsecimi.options[i];
+		            if ( opt.selected === true ) {
+		                veri = opt.value;
+		            }
+		        }
+			$('#ilce'+t+'').find('option').remove().end();
+			   $.getJSON("ilceler/"+veri+"", function(result){
+			    $.each(result, function(i, ilce){
+			    var text = "<option value="+ ilce["id"]+" >"+ilce["name"]+"";
+			       $("#ilce"+t+"").append(text);
+			    });
+			 });
+		}
+		
+		function addressAdd(){
+			
+			for(var i = 0;i<3;i++){
+				var text = "address"+(i+1)+"";
+				document.getElementById(text).style.display = "none";
+			}
+			
+			var veri;
+			var adressecimi = document.getElementById('addressNumber');
+			for ( var i = 0, len = adressecimi.options.length; i < len; i++ ) {
+	            opt = adressecimi.options[i];
+	            if ( opt.selected === true ) {
+	                veri = opt.value;
+	                console.log(veri);
+	            }
+	        }
+			
+			for(var i = 0;i<veri;i++){
+				var text = "address"+(i+1)+"";
+				document.getElementById(text).style.display = "inline";
+			}
+			
+		}
+		
+	</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+</body>
+</html>

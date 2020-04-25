@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body class="container">
+
+<div class="border">
+	<nav class="navbar navbar-expand-lg navbar-light bg-secondary" >
+	  <a class="navbar-brand" href="">Crud Project</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+	    <div class="navbar-nav">
+	      <a class="nav-item nav-link active" href="/kullanici-listele">User Lists<span class="sr-only">(current)</span></a>
+	      <a class="nav-item nav-link active" href="/kullanici-ekle">User Add<span class="sr-only">(current)</span></a>
+	    </div>
+	  </div>
+	</nav>
+	<h2 class="m-3">User Lists</h2>
+	<table class="table text-center" >
+    <thead>
+        <tr>
+        	<th scope="col"> # </th>
+            <th scope="col"> Name </th>
+            <th scope="col"> Surname </th>
+            <th scope="col"> E-Mail </th>
+            <th scope="col"> Update </th>
+            <th scope="col"> Delete </th>
+        </tr>
+    </thead>
+    <tbody id="liste">
+    <tr th:if="${users.empty}">
+            <td colspan="2"> No Books Available </td>
+        </tr>
+        <tr th:each="user : ${users}" th:value="${user.id}">
+        	<td scope="row"><span th:text="${user.id}"> Name </span></td>
+            <td scope="row"><span th:text="${user.name}"> Name </span></td>
+            <td><span th:text="${user.surname}"> Surname </span></td>
+            <td><span th:text="${user.mail}"> E-Mail </span></td>
+            <td><button type="button" class="btn btn-success stretched-link" onclick="deger(this.value)" th:value="${user.id}">Update</button></td>
+            <td><button type="button" class="btn btn-danger stretched-link" onclick="deger(this.value)" th:value="${user.id}">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<script type="text/javascript">
+	function deger(t){
+		$.ajax('/kullanici-sil/'+t+'', {
+		    type: 'POST',  // http method
+		    data: { myData: 'This is my data.' },  // data to submit
+		    success: function (data, status, xhr) {
+		    	deleteElement(t);
+		        alert(t+". idli kullanici silindi.");
+		    },
+		    error: function (jqXhr, textStatus, errorMessage) {
+                alert(t+". idli kullanici silinemedi.");
+		    }
+		});
+	}
+
+    function deleteElement(sil) {
+        var  tbody, tr, th,i,txtValue;
+        tbody = document.getElementById("liste");
+        tr = tbody.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            th = tr[i].getElementsByTagName("td")[0];
+            txtValue = th.textContent || th.innerText;
+            if(txtValue == sil){
+                tr[i].style.display = "none";
+            }
+        }
+    }
+    
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+</body>
+</html>
